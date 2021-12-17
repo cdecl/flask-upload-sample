@@ -12,10 +12,23 @@ $ venv/bin/gunicorn -b ':8000' --reload app:app
 
 ### Test
 
-```sh
-$ curl -XPOST -F 'file=@app.py' http://token:aaaa@localhost:8000/upload
+##### octet-stream
 
-$ ls -l files 
-total 8
--rw-r--r--  1 byung-kyukim  staff  529 Dec 16 21:02 app.py
+```sh
+$ curl -XPOST --data-binary "@$HOME/.ssh/id_rsa" -H "Content-Type:application/octet-stream" http://localhost:8000/upload
+
+$ tree keys
+keys
+└── 127.0.0.1.key
+```
+
+##### form-data
+
+```sh
+$ curl -XPOST -F "file=@HOME/.ssh/id_rsa" http://localhost:8000/upload
+
+$ tree files
+files
+└── 127.0.0.1
+    └── id_rsa
 ```
